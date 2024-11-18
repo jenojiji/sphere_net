@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,7 +36,9 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id")
     private Comment parent_comment_id;
 
-    //replies list of comments
+
+    @OneToMany(mappedBy = "parent_comment_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> replies;
 
 
     @Column(name = "created_at", updatable = false, nullable = false)

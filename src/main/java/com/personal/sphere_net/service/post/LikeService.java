@@ -30,6 +30,16 @@ public class LikeService {
     }
 
     public String dislikePost(Long postId) {
-        Optional<Like> like=likeRepository.
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new EntityNotFoundException("No post found with id :" + postId)
+        );
+        User user = post.getUser();
+        Optional<Like> like = likeRepository.findByPostIdAndUserId(postId, user.getUser_id());
+        if(like.isPresent()) {
+            likeRepository.delete(like.get());
+            return "Disliked";
+        } else {
+            throw new RuntimeException("USER has not liked the post yet");
+        }
     }
 }

@@ -29,8 +29,6 @@ public class PostService {
         Post newPost = PostMapper.toPost(request, user);
         Post savedPost = postRepository.save(newPost);
         return PostMapper.toPostResponse(savedPost);
-
-
     }
 
     public PostResponse getPostById(Long postId) {

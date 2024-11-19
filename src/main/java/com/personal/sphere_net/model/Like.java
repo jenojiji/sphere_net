@@ -37,4 +37,13 @@ public class Like {
     protected void onCreate() {
         created_at = LocalDateTime.now();
     }
+
+    @PrePersist
+    @PreUpdate
+    private void validateAssociation() {
+        if ((post == null && comment == null) || (post != null && comment != null)) {
+            throw new IllegalStateException("A Like must be associated with either a Post or a Comment, but not both.");
+        }
+    }
+
 }

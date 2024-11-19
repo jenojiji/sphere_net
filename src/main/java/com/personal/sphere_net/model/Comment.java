@@ -32,18 +32,26 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    private Comment parent_comment_id;
+    private Comment parent_comment;
 
 
-    @OneToMany(mappedBy = "parent_comment_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent_comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies;
 
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime created_at;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updated_at;
+
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
+        created_at = updated_at = LocalDateTime.now();
+    }
+
+    @PostPersist
+    protected void onUpdate() {
+        updated_at = LocalDateTime.now();
     }
 }

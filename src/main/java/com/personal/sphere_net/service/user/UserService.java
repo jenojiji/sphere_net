@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,5 +69,21 @@ public class UserService {
         } else {
             throw new EntityNotFoundException("User is not followed yet");
         }
+    }
+
+    public List<UserResponse> getAllFollowers(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with Id :" + userId)
+        );
+        List<User> followers = followRepository.findFollowers(userId);
+        return followers.stream().map(UserMapper::toUserResponse).toList();
+    }
+
+    public List<UserResponse> getAllFollowings(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with Id :" + userId)
+        );
+        List<User> followings = followRepository.findFollowing(userId);
+        return followings.stream().map(UserMapper::toUserResponse).toList();
     }
 }

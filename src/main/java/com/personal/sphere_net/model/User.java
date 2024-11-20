@@ -44,6 +44,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes;
 
+
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime created_at;
 

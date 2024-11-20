@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("users")
 @RequiredArgsConstructor
@@ -42,6 +44,18 @@ public class UserController {
     @PostMapping("/{follower_id}/unfollow")
     public ResponseEntity<String> unfollowUser(@PathVariable Long follower_id, @RequestParam Long followed_id) {
         return ResponseEntity.ok(userService.unfollowUser(follower_id, followed_id));
+    }
+
+    // get all followers of user
+    @GetMapping("/{user_id}/followers")
+    public List<UserResponse> getAllFollowers(@PathVariable Long user_id) {
+        return userService.getAllFollowers(user_id);
+    }
+
+    // get all following of user
+    @GetMapping("/{user_id}/followings")
+    public List<UserResponse> getAllFollowings(@PathVariable Long user_id) {
+        return userService.getAllFollowings(user_id);
     }
 
 }

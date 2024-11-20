@@ -1,12 +1,12 @@
 package com.personal.sphere_net.controller.post;
 
+import com.personal.sphere_net.dto.LikeResponse;
 import com.personal.sphere_net.service.post.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +22,26 @@ public class LikeController {
     @DeleteMapping("posts/{post_id}/like")
     public ResponseEntity<String> dislikePost(@PathVariable Long post_id) {
         return ResponseEntity.ok(likeService.dislikePost(post_id));
+    }
+
+    @PostMapping("comments/{comment_id}/like")
+    public ResponseEntity<String> likeComment(@PathVariable Long comment_id) {
+        return ResponseEntity.ok(likeService.likeComment(comment_id));
+    }
+
+    @DeleteMapping("comments/{comment_id}/like")
+    public ResponseEntity<String> dislikeComment(@PathVariable Long comment_id) {
+        return ResponseEntity.ok(likeService.dislikeComment(comment_id));
+    }
+
+    @GetMapping("posts/{post_id}/like")
+    public ResponseEntity<List<LikeResponse>> getAllLikesOfPost(@PathVariable Long post_id) {
+        return ResponseEntity.ok(likeService.getAllLikesOfPost(post_id));
+    }
+
+    @GetMapping("comments/{comment_id}/like")
+    public ResponseEntity<List<LikeResponse>> getAllLikesOfComment(@PathVariable Long comment_id) {
+        return ResponseEntity.ok(likeService.getAllLikesOfComment(comment_id));
     }
 
 }

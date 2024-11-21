@@ -30,6 +30,12 @@ public class CommentController {
         return ResponseEntity.ok(commentService.deleteCommentById(comment_id));
     }
 
+    // update comment
+    @PutMapping("/{comment_id}")
+    public CommentResponse updateComment(@PathVariable Long comment_id, @RequestBody String content) {
+        return commentService.updateCommentById(comment_id, content);
+    }
+
     //get all comments of  a post
     @GetMapping("/posts/{post_id}")
     public ResponseEntity<Page<CommentResponse>> getAllCommentsOfPost(

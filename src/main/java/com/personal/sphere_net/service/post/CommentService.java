@@ -66,4 +66,13 @@ public class CommentService {
         Page<Comment> comments = commentRepository.findByParentCommentId(commentId, pageable);
         return comments.map((CommentMapper::toCommentResponse));
     }
+
+    public CommentResponse updateCommentById(Long commentId, String content) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new EntityNotFoundException("No comment with id :" + commentId + " found in the db")
+        );
+        comment.setContent(content);
+        Comment savedComment = commentRepository.save(comment);
+        return CommentMapper.toCommentResponse(savedComment);
+    }
 }

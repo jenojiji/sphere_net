@@ -1,4 +1,4 @@
-package com.personal.sphere_net.dto;
+package com.personal.sphere_net.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,10 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
-    @NotEmpty(message = "Username should not be empty")
-    @NotBlank(message = "Username should not be blank")
-    private String username;
+public class LoginRequest {
     @NotEmpty(message = "Email should not be empty")
     @NotBlank(message = "Email should not be blank")
     @Email(message = "Must be a valid email")

@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.user;
 
-import com.personal.sphere_net.dto.UserProfileRequest;
-import com.personal.sphere_net.dto.UserResponse;
+import com.personal.sphere_net.dto.user.UserProfileRequest;
+import com.personal.sphere_net.dto.user.UserResponse;
 import com.personal.sphere_net.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

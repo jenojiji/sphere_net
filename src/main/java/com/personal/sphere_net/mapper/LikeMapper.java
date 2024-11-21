@@ -1,6 +1,6 @@
 package com.personal.sphere_net.mapper;
 
-import com.personal.sphere_net.dto.LikeResponse;
+import com.personal.sphere_net.dto.like.LikeResponse;
 import com.personal.sphere_net.model.Comment;
 import com.personal.sphere_net.model.Like;
 import com.personal.sphere_net.model.Post;

@@ -1,7 +1,7 @@
 package com.personal.sphere_net.service.post;
 
-import com.personal.sphere_net.dto.CommentRequest;
-import com.personal.sphere_net.dto.CommentResponse;
+import com.personal.sphere_net.dto.comment.CommentRequest;
+import com.personal.sphere_net.dto.comment.CommentResponse;
 import com.personal.sphere_net.mapper.CommentMapper;
 import com.personal.sphere_net.model.Comment;
 import com.personal.sphere_net.model.Post;

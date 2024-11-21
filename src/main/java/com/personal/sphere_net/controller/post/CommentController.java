@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.post;
 
-import com.personal.sphere_net.dto.CommentRequest;
-import com.personal.sphere_net.dto.CommentResponse;
+import com.personal.sphere_net.dto.comment.CommentRequest;
+import com.personal.sphere_net.dto.comment.CommentResponse;
 import com.personal.sphere_net.service.post.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

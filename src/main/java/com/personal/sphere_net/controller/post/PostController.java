@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.post;
 
-import com.personal.sphere_net.dto.PostRequest;
-import com.personal.sphere_net.dto.PostResponse;
+import com.personal.sphere_net.dto.post.PostRequest;
+import com.personal.sphere_net.dto.post.PostResponse;
 import com.personal.sphere_net.service.post.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

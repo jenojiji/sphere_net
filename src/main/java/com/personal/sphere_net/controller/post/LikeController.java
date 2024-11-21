@@ -1,6 +1,6 @@
 package com.personal.sphere_net.controller.post;
 
-import com.personal.sphere_net.dto.LikeResponse;
+import com.personal.sphere_net.dto.like.LikeResponse;
 import com.personal.sphere_net.service.post.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

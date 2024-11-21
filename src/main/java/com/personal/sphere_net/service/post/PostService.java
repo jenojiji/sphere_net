@@ -1,10 +1,12 @@
 package com.personal.sphere_net.service.post;
 
-import com.personal.sphere_net.dto.PostRequest;
-import com.personal.sphere_net.dto.PostResponse;
+import com.personal.sphere_net.dto.post.PostRequest;
+import com.personal.sphere_net.dto.post.PostResponse;
 import com.personal.sphere_net.mapper.PostMapper;
+import com.personal.sphere_net.model.Hashtag;
 import com.personal.sphere_net.model.Post;
 import com.personal.sphere_net.model.User;
+import com.personal.sphere_net.repository.HashtagRepository;
 import com.personal.sphere_net.repository.PostRepository;
 import com.personal.sphere_net.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,18 +17,23 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final HashtagRepository hashtagRepository;
 
 
     public PostResponse createPost(@Valid PostRequest request) {
         User user = userRepository.findById(request.getUser_id()).orElseThrow(()
                 -> new EntityNotFoundException("User not found with userId:"
                 + request.getUser_id()));
-        Post newPost = PostMapper.toPost(request, user);
+        Set<Hashtag> hashtags = new HashSet<>(hashtagRepository.findAllById(request.getHashtagIds()));
+        Post newPost = PostMapper.toPost(request, user,hashtags);
         Post savedPost = postRepository.save(newPost);
         return PostMapper.toPostResponse(savedPost);
     }

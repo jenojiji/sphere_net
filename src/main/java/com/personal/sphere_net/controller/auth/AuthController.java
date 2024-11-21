@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.auth;
 
-import com.personal.sphere_net.dto.LoginRequest;
-import com.personal.sphere_net.dto.RegisterRequest;
+import com.personal.sphere_net.dto.user.LoginRequest;
+import com.personal.sphere_net.dto.user.RegisterRequest;
 import com.personal.sphere_net.service.auth.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

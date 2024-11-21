@@ -1,6 +1,7 @@
-package com.personal.sphere_net.dto;
+package com.personal.sphere_net.dto.comment;
 
-import com.personal.sphere_net.model.Comment;
+import com.personal.sphere_net.dto.user.UserResponse;
+import com.personal.sphere_net.dto.post.PostResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;

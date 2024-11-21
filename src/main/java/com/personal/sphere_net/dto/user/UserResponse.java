@@ -1,4 +1,4 @@
-package com.personal.sphere_net.dto;
+package com.personal.sphere_net.dto.user;
 
 import lombok.*;
 

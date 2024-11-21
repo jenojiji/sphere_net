@@ -1,7 +1,7 @@
 package com.personal.sphere_net.service.user;
 
-import com.personal.sphere_net.dto.UserProfileRequest;
-import com.personal.sphere_net.dto.UserResponse;
+import com.personal.sphere_net.dto.user.UserProfileRequest;
+import com.personal.sphere_net.dto.user.UserResponse;
 import com.personal.sphere_net.mapper.UserMapper;
 import com.personal.sphere_net.model.Follow;
 import com.personal.sphere_net.model.User;
@@ -72,17 +72,11 @@ public class UserService {
     }
 
     public List<UserResponse> getAllFollowers(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException("User not found with Id :" + userId)
-        );
         List<User> followers = followRepository.findFollowers(userId);
         return followers.stream().map(UserMapper::toUserResponse).toList();
     }
 
     public List<UserResponse> getAllFollowings(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new EntityNotFoundException("User not found with Id :" + userId)
-        );
         List<User> followings = followRepository.findFollowing(userId);
         return followings.stream().map(UserMapper::toUserResponse).toList();
     }

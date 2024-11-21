@@ -33,7 +33,7 @@ public class PostService {
                 -> new EntityNotFoundException("User not found with userId:"
                 + request.getUser_id()));
         Set<Hashtag> hashtags = new HashSet<>(hashtagRepository.findAllById(request.getHashtagIds()));
-        Post newPost = PostMapper.toPost(request, user,hashtags);
+        Post newPost = PostMapper.toPost(request, user, hashtags);
         Post savedPost = postRepository.save(newPost);
         return PostMapper.toPostResponse(savedPost);
     }
@@ -47,8 +47,10 @@ public class PostService {
     public PostResponse updatePostById(Long postId, PostRequest request) {
         Post post = postRepository.findById(postId).orElseThrow(()
                 -> new EntityNotFoundException("Post not found with post_id:" + postId));
+        Set<Hashtag> hashtags = new HashSet<>(hashtagRepository.findAllById(request.getHashtagIds()));
         post.setContent(request.getContent());
         post.setMedia_url(request.getMedia_url());
+        post.setHashtags(hashtags);
         Post updatedPost = postRepository.save(post);
         return PostMapper.toPostResponse(updatedPost);
     }

@@ -1,4 +1,4 @@
-package com.personal.sphere_net.service;
+package com.personal.sphere_net.service.hashtags;
 
 import com.personal.sphere_net.dto.hashtag.HashtagResponse;
 import com.personal.sphere_net.mapper.HashtagMapper;

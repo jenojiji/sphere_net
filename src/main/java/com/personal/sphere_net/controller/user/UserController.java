@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.user;
 
-import com.personal.sphere_net.dto.UserProfileRequest;
-import com.personal.sphere_net.dto.UserResponse;
+import com.personal.sphere_net.dto.user.UserProfileRequest;
+import com.personal.sphere_net.dto.user.UserResponse;
 import com.personal.sphere_net.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,12 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
+
+    //search user among all users by search term
+    @GetMapping
+    public List<UserResponse> getAllUsersBySearchTerm(@RequestParam String searchTerm) {
+        return userService.searchUserBySearchTerm(searchTerm);
     }
 
     // follow another user

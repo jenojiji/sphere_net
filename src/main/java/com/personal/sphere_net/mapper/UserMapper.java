@@ -1,6 +1,6 @@
 package com.personal.sphere_net.mapper;
 
-import com.personal.sphere_net.dto.UserResponse;
+import com.personal.sphere_net.dto.user.UserResponse;
 import com.personal.sphere_net.model.User;
 
 public final class UserMapper {

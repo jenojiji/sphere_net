@@ -1,4 +1,4 @@
-package com.personal.sphere_net.dto;
+package com.personal.sphere_net.dto.comment;
 
 import lombok.*;
 
@@ -12,5 +12,4 @@ public class CommentRequest {
     private Long post_id;
     private Long user_id;
     private Long parent_comment_id;
-
 }

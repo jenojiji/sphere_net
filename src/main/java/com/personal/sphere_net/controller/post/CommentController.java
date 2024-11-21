@@ -1,7 +1,7 @@
 package com.personal.sphere_net.controller.post;
 
-import com.personal.sphere_net.dto.CommentRequest;
-import com.personal.sphere_net.dto.CommentResponse;
+import com.personal.sphere_net.dto.comment.CommentRequest;
+import com.personal.sphere_net.dto.comment.CommentResponse;
 import com.personal.sphere_net.service.post.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +28,12 @@ public class CommentController {
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long comment_id) {
         return ResponseEntity.ok(commentService.deleteCommentById(comment_id));
+    }
+
+    // update comment
+    @PutMapping("/{comment_id}")
+    public CommentResponse updateComment(@PathVariable Long comment_id, @RequestBody String content) {
+        return commentService.updateCommentById(comment_id, content);
     }
 
     //get all comments of  a post

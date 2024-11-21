@@ -54,6 +54,7 @@ public class Comment {
     }
 
     @PostPersist
+    @PostUpdate
     protected void onUpdate() {
         updated_at = LocalDateTime.now();
     }

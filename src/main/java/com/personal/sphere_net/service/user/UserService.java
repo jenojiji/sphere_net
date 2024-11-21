@@ -86,4 +86,9 @@ public class UserService {
         List<User> followings = followRepository.findFollowing(userId);
         return followings.stream().map(UserMapper::toUserResponse).toList();
     }
+
+    public List<UserResponse> searchUserBySearchTerm(String searchTerm) {
+        List<User> responses = userRepository.findUsersBySearchTerm(searchTerm);
+        return responses.stream().map(UserMapper::toUserResponse).toList();
+    }
 }

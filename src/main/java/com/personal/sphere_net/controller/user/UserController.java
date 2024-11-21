@@ -34,6 +34,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 
+    //search user among all users by search term
+    @GetMapping
+    public List<UserResponse> getAllUsersBySearchTerm(@RequestParam String searchTerm) {
+        return userService.searchUserBySearchTerm(searchTerm);
+    }
+
     // follow another user
     @PostMapping("/{follower_id}/follow")
     public ResponseEntity<String> followUser(@PathVariable Long follower_id, @RequestParam Long followed_id) {

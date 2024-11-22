@@ -1,14 +1,18 @@
 package com.personal.sphere_net.service.post;
 
 import com.personal.sphere_net.dto.like.LikeResponse;
+import com.personal.sphere_net.helpers.NotificationHelper;
+import com.personal.sphere_net.helpers.NotificationMessageBuilder;
 import com.personal.sphere_net.mapper.LikeMapper;
 import com.personal.sphere_net.model.Comment;
 import com.personal.sphere_net.model.Like;
 import com.personal.sphere_net.model.Post;
 import com.personal.sphere_net.model.User;
+import com.personal.sphere_net.model.enums.EventType;
 import com.personal.sphere_net.repository.CommentRepository;
 import com.personal.sphere_net.repository.LikeRepository;
 import com.personal.sphere_net.repository.PostRepository;
+import com.personal.sphere_net.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,25 +25,37 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LikeService {
 
+    private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
+    private final NotificationHelper notificationHelper;
 
-    public String likePost(Long postId) {
+
+    public String likePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new EntityNotFoundException("No post found with id :" + postId)
         );
-        User user = post.getUser();
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with userId:"
+                        + userId)
+        );
         Like like = LikeMapper.toLike(post, user);
         likeRepository.save(like);
+
+        notificationHelper.sendNotification(this, post.getUser(), user, EventType.LIKE,
+                NotificationMessageBuilder.BuildLikeMessage(user));
         return "Post Liked";
     }
 
-    public String dislikePost(Long postId) {
+    public String dislikePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new EntityNotFoundException("No post found with id :" + postId)
         );
-        User user = post.getUser();
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with userId:"
+                        + userId)
+        );
         Optional<Like> like = likeRepository.findByPostIdAndUserId(postId, user.getUser_id());
         if (like.isPresent()) {
             likeRepository.delete(like.get());

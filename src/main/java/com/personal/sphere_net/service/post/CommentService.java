@@ -2,10 +2,13 @@ package com.personal.sphere_net.service.post;
 
 import com.personal.sphere_net.dto.comment.CommentRequest;
 import com.personal.sphere_net.dto.comment.CommentResponse;
+import com.personal.sphere_net.helpers.NotificationHelper;
+import com.personal.sphere_net.helpers.NotificationMessageBuilder;
 import com.personal.sphere_net.mapper.CommentMapper;
 import com.personal.sphere_net.model.Comment;
 import com.personal.sphere_net.model.Post;
 import com.personal.sphere_net.model.User;
+import com.personal.sphere_net.model.enums.EventType;
 import com.personal.sphere_net.repository.CommentRepository;
 import com.personal.sphere_net.repository.PostRepository;
 import com.personal.sphere_net.repository.UserRepository;
@@ -16,12 +19,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final NotificationHelper notificationHelper;
 
 
     // add top-level and reply comment
@@ -43,8 +49,13 @@ public class CommentService {
             newComment = CommentMapper.toComment(request, user, post);
         }
         Comment savedComment = commentRepository.save(newComment);
-        return CommentMapper.toCommentResponse(savedComment);
 
+        if (!Objects.equals(post.getUser().getUser_id(), user.getUser_id())) {
+            System.out.println("******inside send notification********");
+            notificationHelper.sendNotification(this, post.getUser(), user, EventType.COMMENT,
+                    NotificationMessageBuilder.BuildCommentMessage(user, savedComment.getContent()));
+        }
+        return CommentMapper.toCommentResponse(savedComment);
     }
 
     public String deleteCommentById(Long commentId) {

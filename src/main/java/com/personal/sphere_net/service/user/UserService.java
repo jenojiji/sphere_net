@@ -2,9 +2,12 @@ package com.personal.sphere_net.service.user;
 
 import com.personal.sphere_net.dto.user.UserProfileRequest;
 import com.personal.sphere_net.dto.user.UserResponse;
+import com.personal.sphere_net.helpers.NotificationHelper;
+import com.personal.sphere_net.helpers.NotificationMessageBuilder;
 import com.personal.sphere_net.mapper.UserMapper;
 import com.personal.sphere_net.model.Follow;
 import com.personal.sphere_net.model.User;
+import com.personal.sphere_net.model.enums.EventType;
 import com.personal.sphere_net.repository.FollowRepository;
 import com.personal.sphere_net.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final NotificationHelper notificationHelper;
 
     public UserResponse updateProfile(Long userId, UserProfileRequest profileRequest) {
         User user = userRepository.findById(userId).orElseThrow(
@@ -57,6 +61,8 @@ public class UserService {
                 .followed(followed)
                 .build();
         followRepository.save(follow);
+        notificationHelper.sendNotification(this, followed, follower, EventType.FOLLOW,
+                NotificationMessageBuilder.BuildFollowMessage(follower));
         return "Followed";
     }
 

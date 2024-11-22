@@ -1,14 +1,14 @@
 package com.personal.sphere_net.controller.hashtag;
 
 import com.personal.sphere_net.dto.hashtag.HashtagResponse;
-import com.personal.sphere_net.service.hashtags.HashtagService;
+import com.personal.sphere_net.service.hashtag.HashtagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("hashtags")
+@RequestMapping("hashtag")
 @RequiredArgsConstructor
 public class HashtagController {
 
@@ -20,7 +20,8 @@ public class HashtagController {
     }
 
     @GetMapping
-    public List<HashtagResponse> getAllHashtagsBySearchTerm(@RequestParam String searchTerm) {
+    public List<HashtagResponse> getAllHashtagsBySearchTerm
+            (@RequestParam String searchTerm) {
         return hashtagService.searchHashtagBySearchTerm(searchTerm);
     }
 

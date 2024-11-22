@@ -13,11 +13,14 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -72,5 +75,24 @@ public class PostService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Post> result = postRepository.findAll(pageable);
         return result.map(PostMapper::toPostResponse);
+    }
+
+    public Page<PostResponse> getAllPostsByHashtag(String searchTerm, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Optional<Hashtag> hashtag = hashtagRepository.findByHashtagName(searchTerm);
+        if (hashtag.isEmpty()) {
+            throw new EntityNotFoundException("Hashtag with name :" + searchTerm + " :doesn't exist");
+        } else {
+            List<Post> posts = hashtag.get().getPosts();
+            int start = (int) pageable.getOffset(); // Start index
+            int end = Math.min(start + pageable.getPageSize(), posts.size()); // End index
+            if (start > posts.size()) {
+                return new PageImpl<>(List.of(), pageable, posts.size());
+            }
+            // Sublist to apply pagination
+            List<Post> paginatedPosts = posts.subList(start, end);
+            Page<Post> result = new PageImpl<>(paginatedPosts, pageable, posts.size());
+            return result.map(PostMapper::toPostResponse);
+        }
     }
 }

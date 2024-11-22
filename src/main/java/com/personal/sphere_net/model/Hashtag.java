@@ -11,14 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "hashtags")
+@Table(name = "hashtag")
 public class Hashtag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long hashtag_id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false,unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "hashtags")

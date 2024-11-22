@@ -34,7 +34,8 @@ public class PostController {
 
     //update existing post
     @PutMapping("/{post_id}")
-    public ResponseEntity<PostResponse> updatePost(@PathVariable Long post_id, @RequestBody PostRequest request) {
+    public ResponseEntity<PostResponse> updatePost(@PathVariable Long post_id,
+                                                   @RequestBody PostRequest request) {
         PostResponse postResponse = postService.updatePostById(post_id, request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(postResponse);
     }
@@ -63,6 +64,17 @@ public class PostController {
             @RequestParam(defaultValue = "10") int pageSize) {
         Page<PostResponse> products = postService.getAllPosts(pageNo, pageSize);
         return ResponseEntity.ok(products);
+    }
+
+    //get all posts by hashtag
+    @GetMapping("/hashtags")
+    public Page<PostResponse> getAllPostsByHashtag(
+            @RequestParam("searchTerm") String searchTerm,
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+
+        return postService.getAllPostsByHashtag(searchTerm,pageNo, pageSize);
     }
 
 }

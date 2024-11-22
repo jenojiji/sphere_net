@@ -1,7 +1,8 @@
 package com.personal.sphere_net.service.post;
 
 import com.personal.sphere_net.dto.like.LikeResponse;
-import com.personal.sphere_net.event.NotificationEvent;
+import com.personal.sphere_net.helpers.NotificationHelper;
+import com.personal.sphere_net.helpers.NotificationMessageBuilder;
 import com.personal.sphere_net.mapper.LikeMapper;
 import com.personal.sphere_net.model.Comment;
 import com.personal.sphere_net.model.Like;
@@ -14,7 +15,6 @@ import com.personal.sphere_net.repository.PostRepository;
 import com.personal.sphere_net.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class LikeService {
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final NotificationHelper notificationHelper;
 
 
     public String likePost(Long postId, Long userId) {
@@ -43,9 +43,8 @@ public class LikeService {
         Like like = LikeMapper.toLike(post, user);
         likeRepository.save(like);
 
-        String message = user.getUsername() + " liked your post: " + post.getContent();
-        NotificationEvent notificationEvent = new NotificationEvent(this, post.getUser(), user, EventType.LIKE, message);
-        eventPublisher.publishEvent(notificationEvent);
+        notificationHelper.sendNotification(this, post.getUser(), user, EventType.LIKE,
+                NotificationMessageBuilder.BuildLikeMessage(user));
         return "Post Liked";
     }
 

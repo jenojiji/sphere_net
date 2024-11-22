@@ -81,7 +81,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Optional<Hashtag> hashtag = hashtagRepository.findByHashtagName(searchTerm);
         if (hashtag.isEmpty()) {
-            throw new EntityNotFoundException("Hashtag with name :" + searchTerm + " :doesn't exist");
+            throw new EntityNotFoundException("Hashtag with name :" + searchTerm + " :  doesn't exist");
         } else {
             List<Post> posts = hashtag.get().getPosts();
             int start = (int) pageable.getOffset(); // Start index

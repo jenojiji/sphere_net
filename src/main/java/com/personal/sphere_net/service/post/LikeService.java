@@ -44,7 +44,7 @@ public class LikeService {
         likeRepository.save(like);
 
         notificationHelper.sendNotification(this, post.getUser(), user, EventType.LIKE,
-                NotificationMessageBuilder.BuildLikeMessage(user));
+                NotificationMessageBuilder.BuildLikeMessageForPost(user));
         return "Post Liked";
     }
 
@@ -65,12 +65,17 @@ public class LikeService {
         }
     }
 
-    public String likeComment(Long commentId) {
+    public String likeComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new EntityNotFoundException("Comment not found with commentId :" + commentId)
         );
-        Like like = LikeMapper.toLike(comment.getPost(), comment.getUser(), comment);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new EntityNotFoundException("User not found with ID :" + userId)
+        );
+        Like like = LikeMapper.toLike(comment.getPost(), user, comment);
         likeRepository.save(like);
+        notificationHelper.sendNotification(this, comment.getUser(), user, EventType.LIKE,
+                NotificationMessageBuilder.BuildLikeMessageForComment(user));
         return "Comment Liked";
     }
 

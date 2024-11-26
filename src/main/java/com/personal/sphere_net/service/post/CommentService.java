@@ -39,6 +39,7 @@ public class CommentService {
         User user = userRepository.findById(request.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("No user found with userId :" + request.getUser_id()));
         Comment newComment;
+
         if (request.getParent_comment_id() != null) {
             Comment parentComment = commentRepository.findById(request.getParent_comment_id()).orElseThrow(
                     () -> new EntityNotFoundException("Parent Comment with id :" + request.getParent_comment_id()
@@ -51,9 +52,29 @@ public class CommentService {
         Comment savedComment = commentRepository.save(newComment);
 
         if (!Objects.equals(post.getUser().getUser_id(), user.getUser_id())) {
-            System.out.println("******inside send notification********");
-            notificationHelper.sendNotification(this, post.getUser(), user, EventType.COMMENT,
-                    NotificationMessageBuilder.BuildCommentMessage(user, savedComment.getContent()));
+            if (request.getParent_comment_id() == null) {
+                notificationHelper.sendNotification(
+                        this,
+                        post.getUser(),
+                        user, EventType.COMMENT,
+                        NotificationMessageBuilder.BuildCommentMessage(
+                                user,
+                                savedComment.getContent()
+                        ));
+            } else {
+                Comment parentComment = commentRepository.findById(request.getParent_comment_id()).orElseThrow(
+                        () -> new EntityNotFoundException("Parent Comment with id :" + request.getParent_comment_id()
+                                + " not found")
+                );
+                notificationHelper.sendNotification(
+                        this,
+                        parentComment.getUser(),
+                        user, EventType.COMMENT,
+                        NotificationMessageBuilder.BuildReplyCommentMessage(
+                                user,
+                                request.getContent()));
+            }
+
         }
         return CommentMapper.toCommentResponse(savedComment);
     }

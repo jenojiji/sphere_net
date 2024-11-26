@@ -15,18 +15,18 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("posts/{post_id}/like")
-    public ResponseEntity<String> likePost(@PathVariable Long post_id,@RequestParam Long user_id) {
-        return ResponseEntity.ok(likeService.likePost(post_id,user_id));
+    public ResponseEntity<String> likePost(@PathVariable Long post_id, @RequestParam Long user_id) {
+        return ResponseEntity.ok(likeService.likePost(post_id, user_id));
     }
 
     @DeleteMapping("posts/{post_id}/like")
-    public ResponseEntity<String> dislikePost(@PathVariable Long post_id,@RequestParam Long user_id) {
-        return ResponseEntity.ok(likeService.dislikePost(post_id,user_id));
+    public ResponseEntity<String> dislikePost(@PathVariable Long post_id, @RequestParam Long user_id) {
+        return ResponseEntity.ok(likeService.dislikePost(post_id, user_id));
     }
 
     @PostMapping("comments/{comment_id}/like")
-    public ResponseEntity<String> likeComment(@PathVariable Long comment_id) {
-        return ResponseEntity.ok(likeService.likeComment(comment_id));
+    public ResponseEntity<String> likeComment(@PathVariable Long comment_id, @RequestParam Long user_id) {
+        return ResponseEntity.ok(likeService.likeComment(comment_id, user_id));
     }
 
     @DeleteMapping("comments/{comment_id}/like")

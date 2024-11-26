@@ -27,8 +27,4 @@ public class NotificationEvent extends ApplicationEvent {
         System.out.println("******notification event******");
     }
 
-    public NotificationEvent(Object source, Clock clock) {
-        super(source, clock);
-    }
-
 }

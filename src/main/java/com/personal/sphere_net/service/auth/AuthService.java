@@ -7,6 +7,9 @@ import com.personal.sphere_net.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -16,6 +19,7 @@ import java.util.Objects;
 public class AuthService {
 
     private final UserRepository userRepository;
+//    private final AuthenticationProvider authenticationProvider;
 
 
     public String registerUser(@Valid RegisterRequest request) {
@@ -28,7 +32,13 @@ public class AuthService {
         return "User registered successfully";
     }
 
-    public String authenticateUser(@Valid LoginRequest request) {
+    public String loginUser(@Valid LoginRequest request) {
+
+//        Authentication authReqToken = UsernamePasswordAuthenticationToken
+//                .unauthenticated(request.getEmail(), request.getPassword());
+//
+//
+//        Authentication authRes = authenticationProvider.authenticate(authReqToken);
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("User not found with email:" + request.getEmail())
         );
@@ -38,4 +48,8 @@ public class AuthService {
             return "failed";
         }
     }
+
+    //TODO : JWT Authentication
+    //TODO : Redis Implementation
+    //TODO : Account Settings Implementation
 }

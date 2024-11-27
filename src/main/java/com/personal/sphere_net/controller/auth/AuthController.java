@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("login")
     public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
-        String response = authService.authenticateUser(loginRequest);
+        String response = authService.loginUser(loginRequest);
         if (Objects.equals(response, "success")) {
             return ResponseEntity.status(HttpStatus.OK).body("Login Successful");
         } else {

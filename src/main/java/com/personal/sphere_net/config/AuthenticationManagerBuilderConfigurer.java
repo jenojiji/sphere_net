@@ -11,6 +11,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Slf4j
 public class AuthenticationManagerBuilderConfigurer {
 
+    /**
+     * this class is optional
+     * even without this class ,application will work
+     * spring will automatically create a global authentication manager
+     */
+
+    /**
+     * there is a possible error here-need RCA
+     * error :
+     * Global AuthenticationManager configured with an AuthenticationProvider bean.
+     * UserDetailsService beans will not be used for username/password login.
+     * Consider removing the AuthenticationProvider bean.
+     * Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+     */
+
     final AuthenticationProvider authenticationProvider;
     final UserDetailsService userDetailsService;
 

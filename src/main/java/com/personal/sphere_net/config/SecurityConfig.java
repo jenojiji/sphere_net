@@ -7,12 +7,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Slf4j
+
+/// need a re-check on sessions
+
 public class SecurityConfig {
 
     @Bean
@@ -24,13 +28,24 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers
                                 (
-                                        "/auth/**",
+                                        "api/v1/auth/**",
                                         "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/users/**"
+                                        "/v3/api-docs/**"
                                 ).permitAll()
-                        .requestMatchers("/posts/**").hasRole("USER").anyRequest().authenticated()
-                ).build();
+                        .anyRequest().authenticated()
 
+                )
+                .sessionManagement(session ->
+                        session
+                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(true)
+                )
+                .build();
     }
 }
+
+
+/// maximumSessions() doesn't work
+/// maxSessionsPreventsLogin() also don't work
+/// need a re-check

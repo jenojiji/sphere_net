@@ -3,6 +3,8 @@ package com.personal.sphere_net.controller.auth;
 import com.personal.sphere_net.dto.user.LoginRequest;
 import com.personal.sphere_net.dto.user.RegisterRequest;
 import com.personal.sphere_net.service.auth.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("auth/")
+@RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -28,8 +30,8 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
-        String response = authService.loginUser(loginRequest);
+    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequest loginRequest, HttpServletRequest req, HttpServletResponse res) {
+        String response = authService.loginUser(loginRequest,req,res);
         if (Objects.equals(response, "success")) {
             return ResponseEntity.status(HttpStatus.OK).body("Login Successful");
         } else {

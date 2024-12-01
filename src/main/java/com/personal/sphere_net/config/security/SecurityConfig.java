@@ -1,4 +1,4 @@
-package com.personal.sphere_net.config;
+package com.personal.sphere_net.config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
